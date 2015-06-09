@@ -42,9 +42,9 @@ module.exports = function(source, sourceMap) {
                 "\tel.setAttribute('name', '"+elementName+"')",
                 "\tel.setAttribute('hidden','')",
                 "\tif(template.indexOf('<template>'))",
-                "\t\tel.innerHTML = template.replace(/(<template>)([^]*<\\/template>)/img, function(m, $1, $2) { return $1 + '<style>'+styles+'</style>' + $2});",
+                "\t\tel.innerHTML = template.replace('<template>', '<style>'+styles+'</style><template>');",
                 "\telse",
-                "\t\tel.innerHTML = template.replace('</polymer-element>', '<template><style>'+styles+'</style></template></polymer-element>');",
+                "\t\tel.innerHTML = template.replace('<dom-module id=\""+elementName+"\">', '<dom-module id=\"" +elementName+ "\"><style>'+styles+'</style>');",
                 "\tdocument.body.appendChild(el);",
             "})(document);"
         ].join('\n');
@@ -70,7 +70,7 @@ module.exports = function(source, sourceMap) {
                 "\tvar el = document.createElement('div');",
                 "\tel.setAttribute('name', '"+elementName+"')",
                 "\tel.setAttribute('hidden','')",
-                "\tel.innerHTML = '<polymer-element name=\""+elementName+"\"><template><style>'+styles+'</style></template></polymer-element>';",
+                "\tel.innerHTML = '<dom-module id=\""+elementName+"\"><style>'+styles+'</style><template></template></dom-module>';",
                 "\tdocument.body.appendChild(el);",
             "})(document);"
         ].join('\n');
@@ -109,6 +109,10 @@ module.exports = function(source, sourceMap) {
     }
 
     // return the original source
+
+    console.log("The source: ", source);
+
+
     return source;
 };
 
